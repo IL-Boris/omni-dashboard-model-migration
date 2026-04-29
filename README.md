@@ -1,8 +1,10 @@
-# Omni Dashboard Migration CLI
+# Omni CLI - Dashboard & Model Management
 
-A simple, production-ready command-line tool to **export an Omni dashboard, change its base model ID, and re-import it**.
-
-Perfect for migrating dashboards between models, workspaces, or environments in Omni.
+A command-line tool for Omni with multiple commands:
+- migrate          → Export a dashboard, change its baseModelId, and re-import
+- list-documents   → List all documents in the workspace
+- list-models      → List all models in the workspace
+- show-model       → Show the current baseModelId of a specific document
 
 ---
 
@@ -10,6 +12,7 @@ Perfect for migrating dashboards between models, workspaces, or environments in 
 
 - Export → update `baseModelId` → import in a single command
 - Full support for `.env` files (or environment variables)
+- List all documents and models
 - Override credentials via CLI flags
 - `--dry-run` mode for safe testing
 - `--verbose` output for debugging
@@ -56,7 +59,7 @@ python migrate_omni_dashboard.py --help
 
 #### Basic command (recommended)
 ```bash
-python migrate_omni_dashboard.py \
+python migrate_omni_dashboard.py migrate \
   --dashboard-id "abc123-def456-ghi789" \
   --new-model-id "new-model-uuid-here"
 ```
@@ -65,20 +68,25 @@ python migrate_omni_dashboard.py \
 
 | Flag                | Required | Description                                      | Default      |
 |---------------------|----------|--------------------------------------------------|--------------|
-| `--dashboard-id`    | Yes      | Dashboard identifier (UUID or slug)              | -            |
-| `--new-model-id`    | Yes      | New `baseModelId` to set                         | -            |
 | `--env-file`        | No       | Path to `.env` file                              | `.env`       |
 | `--api-key`         | No       | Override `OMNI_API_KEY`                          | env var      |
 | `--base-url`        | No       | Override `BASE_URL`                              | env var      |
-| `--dry-run`         | No       | Export & update but skip import                  | `false`      |
 | `--verbose`         | No       | Show detailed output (including exported doc)    | `false`      |
+| `--dashboard-id`    | Yes      | Dashboard identifier (UUID) Migrate Specific     | -            |
+
+`migrate` specific options
+
+| Flag                | Required | Description                                      | Default      |
+|---------------------|----------|--------------------------------------------------|--------------|
+| `--new-model-id`    | Yes      | New `baseModelId` to set Migrate Specific        | -            |
+| `--dry-run`         | No       | Export & update but skip import                  | `false`      |
 
 ### Examples
 
 **Dry-run first (highly recommended!)**
 
 ```bash
-python migrate_omni_dashboard.py \
+python migrate_omni_dashboard.py migrate \
   --dashboard-id "abc123" \
   --new-model-id "xyz789" \
   --dry-run --verbose
@@ -87,7 +95,7 @@ python migrate_omni_dashboard.py \
 **Use a different environment file**
 
 ```bash
-python migrate_omni_dashboard.py \
+python migrate_omni_dashboard.py migrate \
   --dashboard-id "prod-dashboard" \
   --new-model-id "staging-model-id" \
   --env-file .env.staging
@@ -96,7 +104,7 @@ python migrate_omni_dashboard.py \
 **Pass credentials directly**
 
 ```bash
-python migrate_omni_dashboard.py \
+python migrate_omni_dashboard.py migrate \
   --dashboard-id "abc123" \
   --new-model-id "new-model" \
   --api-key "omni_..." \
