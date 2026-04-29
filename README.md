@@ -77,25 +77,31 @@ python migrate_omni_dashboard.py \
 
 **Dry-run first (highly recommended!)**
 
+```bash
 python migrate_omni_dashboard.py \
   --dashboard-id "abc123" \
   --new-model-id "xyz789" \
   --dry-run --verbose
+```
 
 **Use a different environment file**
 
+```bash
 python migrate_omni_dashboard.py \
   --dashboard-id "prod-dashboard" \
   --new-model-id "staging-model-id" \
   --env-file .env.staging
+```
 
 **Pass credentials directly**
 
+```bash
 python migrate_omni_dashboard.py \
   --dashboard-id "abc123" \
   --new-model-id "new-model" \
   --api-key "omni_..." \
   --base-url "https://staging.omni.co"
+```
 
 ### 🧪 Testing & Safety
 
